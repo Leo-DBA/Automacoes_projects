@@ -1,0 +1,21 @@
+CREATE DATABASE scrapping;
+
+
+use scrapping;
+
+
+
+CREATE TABLE acoes (
+COD INT PRIMARY KEY AUTO_INCREMENT,
+ACAO_SYMBOL CHAR(9),
+PRICE FLOAT (5, 2),
+CHANGE_PERCENT FLOAT (5, 2),
+CHANGE_PRICE FLOAT (5, 2),
+UPDATED_AT DATETIME
+
+
+
+)
+
+
+select * from acoes
