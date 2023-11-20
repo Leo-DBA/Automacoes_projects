@@ -3,7 +3,9 @@ import pandas as pd
 from db import conectar_mysql, fechar_conexao
 
 api_key = '8dd4ae36'
-acoes = ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'B3SA3', 'ABEV3', 'MGLU3', 'WEGE3', 'GGBR4', 'LREN3']
+acoes =  ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'B3SA3', 'ABEV3', 'MGLU3', 'WEGE3', 'GGBR4', 'LREN3']
+
+
 
 # Coletar dados de ações
 compilada = pd.DataFrame()
