@@ -2,6 +2,7 @@ import mysql.connector
 from dotenv import load_dotenv
 import os 
 
+
 load_dotenv()
 
 #acesso as variaveis
@@ -11,7 +12,7 @@ HOST = os.getenv("HOST")
 
 def conectar_mysql():
     config = {
-        'user': 'dba_leo',
+        'user': 'root',
         'password': SENHA_DB,
         'host': HOST,
         'database': 'scrapping'
@@ -31,3 +32,19 @@ def fechar_conexao(conn, cursor):
         cursor.close()
     if conn:
         conn.close()
+
+
+
+def selecao(cursor):
+    #try:
+        retorna ="""
+        SELECT ACAO_SYMBOL, PRICE, CHANGE_PERCENT, CHANGE_PRICE FROM ACOES; 
+        """
+        cursor.execute(retorna)
+        resultado = cursor.fetchall()
+
+        #print(resultado)
+        if resultado:
+            return resultado
+
+

@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from db import conectar_mysql, fechar_conexao
+from db import conectar_mysql, fechar_conexao, selecao
 
 api_key = '8dd4ae36'
 acoes = ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'B3SA3', 'ABEV3', 'MGLU3', 'WEGE3', 'GGBR4', 'LREN3']
@@ -25,6 +25,10 @@ conn, cursor = conectar_mysql()
 
 # Inserir dados no banco de dados
 if conn and cursor:
+    s = selecao(cursor)
+    if s is not None:
+        for row in s:
+            print(row)
     try:
         for _, row in compilada.iterrows():
             query = """
@@ -40,6 +44,8 @@ if conn and cursor:
 
         conn.commit()
         print("Insert executado com sucesso!")
+            
+
     except Exception as e:
         print(f"Ocorreu um erro ao inserir os dados no banco: {e}")
     finally:
