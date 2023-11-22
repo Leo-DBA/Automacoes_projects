@@ -1,11 +1,13 @@
 import requests
 import pandas as pd
-from db import conectar_mysql, fechar_conexao
+import streamlit as st
+import plotly.express as px
+from db import conectar_mysql, fechar_conexao, read_data
 
 api_key = '8dd4ae36'
 acoes =  ['PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'B3SA3', 'ABEV3', 'MGLU3', 'WEGE3', 'GGBR4', 'LREN3']
 
-
+st.set_page_config(layout='wide')
 
 # Coletar dados de ações
 compilada = pd.DataFrame()
@@ -24,6 +26,8 @@ for acao in acoes:
 
 # Conectar ao banco de dados MySQL
 conn, cursor = conectar_mysql()
+
+
 
 # Inserir dados no banco de dados
 if conn and cursor:
@@ -48,3 +52,43 @@ if conn and cursor:
         fechar_conexao(conn, cursor)
 else:
     print("Não conseguimos conectar no MySQL!")
+
+
+
+def fecth_data():
+    conn, cursor = conectar_mysql()
+
+
+    # ler os dados do banco
+    s = read_data(cursor)
+
+    fechar_conexao(conn,cursor)
+    print("peguei os dados:", s)
+    
+
+    return s
+
+
+
+def gera_dashs():
+    st.title("Relatório Ações")
+    
+
+    data = fecth_data()
+
+    if data is not None:
+        st.write("Dados encontrados")
+        st.write(data)
+
+        print("Colunas disponíveis:", data.columns)
+
+
+        # criando o grafico
+        dash = px.scatter(data, x='ação', y='price', title='Preço das ações')
+        st.plotly_chart(dash)
+    else:
+        st.write("Não encontramos nenhum dados na tabela!")
+
+
+fecth_data()
+gera_dashs()
